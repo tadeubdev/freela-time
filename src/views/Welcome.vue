@@ -28,6 +28,7 @@
                 v-model="name"
                 type="text"
                 autofocus="autofocus"
+                @keypress.enter="doLogin"
               ></v-text-field>
 
               <v-text-field
@@ -35,6 +36,7 @@
                 name="email"
                 v-model="email"
                 type="text"
+                @keypress.enter="doLogin"
               ></v-text-field>
             </v-form>
           </v-card-text>
@@ -60,6 +62,7 @@
             color="primary"
             text
             @click="displayDialog = false"
+            autofocus="autofocus"
           >
             Ok!
           </v-btn>
@@ -82,7 +85,7 @@ export default {
 
   methods: {
     doLogin() {
-      if (this.name == null || this.email == null) {
+      if (!this.name || !this.email) {
         this.displayDialog = true;
         return;
       }
