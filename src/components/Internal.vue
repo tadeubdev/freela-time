@@ -13,7 +13,7 @@
         <v-card
           class="mx-4 mx-lg-auto"
           max-width="1000"
-          style="margin-top:-64px;"
+          style="margin-top:-64px;z-index: 0;"
         >
           <v-toolbar
             flat
@@ -35,6 +35,7 @@
                 bottom
                 left
                 absolute
+                style="z-index:9999"
                 @click="displayNovoCliente = !displayNovoCliente"
               >
                 <v-icon>mdi-plus</v-icon>
@@ -43,7 +44,7 @@
           </v-toolbar>
           <v-divider></v-divider>
           <v-main
-            style="min-height:500px;"
+            style="z-index:-1;min-height:500px;"
           >
             <v-container
               class="fill-height"
@@ -59,6 +60,12 @@
     <Logout v-model="displayLogout"></Logout>
   </v-app>
 </template>
+
+<style>
+.v-main__wrap {
+  z-index: -1;
+}
+</style>
 
 <script>
 import NovoCliente from './Dialogs/NovoCliente.vue';
