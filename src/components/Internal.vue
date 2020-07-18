@@ -1,112 +1,74 @@
 <template>
-  <v-app id="inspire">
-    <v-navigation-drawer
-      v-model="drawer"
-      app
-      v-if="false"
+  <v-app>
+    <v-card
+      flat
+      tile
     >
-      <LateralBar></LateralBar>
-    </v-navigation-drawer>
-
-    <v-app-bar
-      app
-      dark
-      color="blue"
-    >
-      <v-app-bar-nav-icon @click.stop="changeDrawer" v-if="false"></v-app-bar-nav-icon>
-      <v-toolbar-title>Freela time</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        text
+      <v-toolbar
+        color="primary"
         dark
-        @click="displayLogout = !displayLogout"
-      >
-        Sair
-      </v-btn>
-      <template v-slot:extension>
-        <v-btn
-          fab
-          color="indigo"
-          dark
-          bottom
-          left
-          absolute
-          @click="displayNovoCliente = !displayNovoCliente"
+        extended
+        flat
+      ></v-toolbar>
+        <v-card
+          class="mx-4 mx-lg-auto"
+          max-width="1000"
+          style="margin-top:-64px;"
         >
-          <v-icon>mdi-plus</v-icon>
-        </v-btn>
-      </template>
-      <v-dialog
-        v-model="displayLogout"
-        max-width="290"
-      >
-        <v-card>
-          <v-card-title class="headline">
-            Logout
-          </v-card-title>
-          <v-card-text>
-            Tem certeza que deseja sair?
-          </v-card-text>
-          <v-card-actions>
+          <v-toolbar
+            flat
+            class="text-dark"
+          >
+            <v-toolbar-title class="grey--text">Freela Time</v-toolbar-title>
             <v-spacer></v-spacer>
-
             <v-btn
-              text
-              @click="displayLogout = false"
+              icon
+              @click="displayLogout = !displayLogout"
             >
-              Não
+              <v-icon>mdi-account-arrow-right-outline</v-icon>
             </v-btn>
-
-            <v-btn
-              text
-              color="red"
-              @click="doLogout"
+            <template v-slot:extension>
+              <v-btn
+                fab
+                color="primary"
+                dark
+                bottom
+                left
+                absolute
+                @click="displayNovoCliente = !displayNovoCliente"
+              >
+                <v-icon>mdi-plus</v-icon>
+              </v-btn>
+            </template>
+          </v-toolbar>
+          <v-divider></v-divider>
+          <v-main
+            style="min-height:500px;"
+          >
+            <v-container
+              class="fill-height"
+              align-top
             >
-              Sim
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-      <v-dialog v-model="displayNovoCliente" max-width="600px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">Novo cliente</span>
-          </v-card-title>
-          <v-card-text>
-            <v-container>
-              <v-row>
-                <v-col cols="12" sm="6" md="4">
-                  <v-text-field label="Nome" required></v-text-field>
-                </v-col>
-              </v-row>
+              <router-view/>
             </v-container>
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="displayNovoCliente = false">Close</v-btn>
-            <v-btn color="blue darken-1" text @click="displayNovoCliente = false">Save</v-btn>
-          </v-card-actions>
+          </v-main>
         </v-card>
-      </v-dialog>
-    </v-app-bar>
+    </v-card>
 
-    <v-main>
-      <v-container
-        class="fill-height"
-      >
-        <router-view/>
-      </v-container>
-    </v-main>
+    <NovoCliente v-model="displayNovoCliente"></NovoCliente>
+    <Logout v-model="displayLogout"></Logout>
   </v-app>
 </template>
 
 <script>
-import LateralBar from './Internal/LateralBar.vue';
+import NovoCliente from './Dialogs/NovoCliente.vue';
+import Logout from './Dialogs/Logout.vue';
 
 export default {
 
   components: {
-    LateralBar,
+    NovoCliente,
+    Logout,
   },
 
   computed: {
@@ -119,7 +81,7 @@ export default {
     return {
       drawer: false,
       displayLogout: false,
-      displayNovoCliente: true,
+      displayNovoCliente: false,
     };
   },
 
@@ -138,13 +100,6 @@ export default {
       if (this.$vuetify.breakpoint.lgAndUp) {
         this.$localStorage.set('drawer', this.drawer);
       }
-    },
-
-    async doLogout() {
-      this.displayLogout = false;
-      await this.$store.commit('setUser', {});
-      await this.$store.commit('setUserLogged', false);
-      this.$router.push({ name: 'Welcome' });
     },
 
   },

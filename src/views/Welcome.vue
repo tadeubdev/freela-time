@@ -1,25 +1,24 @@
 <template>
-  <v-container
-    class="fill-height"
-    fluid
-  >
+  <v-container>
     <v-row
       align="center"
       justify="center"
     >
-      <v-col
-        cols="12"
-        sm="8"
-        md="4"
-      >
-        <v-card class="elevation-12">
+      <v-col cols="12" sm="12" md="6" lg="5">
+        <v-card
+          outlined
+        >
           <v-toolbar
-            color="primary"
-            dark
             flat
           >
-            <v-toolbar-title>Bem vindo ao FreelaTime!</v-toolbar-title>
+            <v-toolbar-title>
+              Bem vindo ao FreelaTime!
+            </v-toolbar-title>
           </v-toolbar>
+          <v-subheader>
+            Esta é uma versão beta. <br>
+            Em breve mais novidades e melhorias!
+          </v-subheader>
           <v-card-text>
             <v-form>
               <v-text-field
@@ -42,51 +41,72 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" @click="doLogin">Começar!</v-btn>
+            <v-btn
+              color="primary flat px-4"
+              depressed
+              outlined
+              width="140"
+              @click="doLogin"
+            >
+              Entrar
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-    <v-dialog
-      v-model="displayDialog"
-      width="500"
-    >
-      <v-card>
-        <v-card-text class="pt-4 body-1">
-          Preencha todos os campos do formulário!
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="primary"
-            text
-            @click="displayDialog = false"
-            autofocus="autofocus"
-          >
-            Ok!
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <!--  -->
+    <SimpleAlert
+      v-model="dialog.show"
+      :message="dialog.message"
+      :title="dialog.title"
+      :ok="dialog.ok"
+      :yes="dialog.yes"
+      :no="dialog.no"
+      :cancel="dialog.cancel"
+    ></SimpleAlert>
   </v-container>
 </template>
 
 <script>
+import SimpleAlert from '../components/Dialogs/SimpleAlert.vue';
+
 export default {
+
+  components: {
+    SimpleAlert,
+  },
 
   data() {
     return {
-      displayDialog: false,
       name: 'Tadeu',
       email: 'tadeufbarbosa@gmail.com',
+      //
+      dialog: {
+        show: false,
+        title: null,
+        message: null,
+        ok: null,
+        yes: null,
+        no: null,
+        cancel: null,
+      },
     };
   },
 
   methods: {
+
+    showOnEmpty() {
+      this.dialog.title = 'Ops!';
+      this.dialog.message = 'Preencha todos os campos!';
+      this.dialog.ok = () => {
+        this.dialog.show = false;
+      };
+      this.dialog.show = true;
+    },
+
     doLogin() {
       if (!this.name || !this.email) {
-        this.displayDialog = true;
+        this.showOnEmpty();
         return;
       }
       this.$store.commit('setUserLogged', true);
