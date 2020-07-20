@@ -1,6 +1,9 @@
 const openInEditor = require("launch-editor-middleware");
 
 module.exports = {
+  publicPath: process.env.NODE_ENV === 'production' ?
+    '/freela-time/' :
+    '/',
   pwa: {
     name: 'Freela Time',
     themeColor: '#235BBC',
