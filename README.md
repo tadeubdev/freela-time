@@ -21,6 +21,7 @@ Para fazer o build:
 
 > yarn run build
 
-Para fazer o deploy:
+Para fazer o deploy, primeiramente verifique se não há 
+alterações a serem comitadas, em seguida rode o comando:
 
 > yarn run deploy
