@@ -3,7 +3,7 @@
 > Este ainda é um projeto em desenvolvimento! \
 > Você pode contribuir enviando um pull request.
 
-![Printscreen]("/printscreen/screenshot-2.png?raw=true" "Imagem de cadastro")
+![Printscreen](printscreen/screenshot-2.png?raw=true "Imagem de cadastro")
 
 Um projeto open source para Freelancers.
 O intuíto do projeto é disponibilizar um lugar aonde possam salvar os seus clientes e registrar as horas trabalhadas em cada um deles.
