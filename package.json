@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve --fix",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint --fix"
+    "lint": "vue-cli-service lint --fix",
+    "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
     "@mdi/font": "^5.3.45",

@@ -20,3 +20,7 @@ Está sendo desenvolvido em `Vuejs`, para contribuir clone ou baixe o projeto e 
 Para fazer o build:
 
 > yarn run build
+
+Para fazer o deploy:
+
+> yarn run deploy
