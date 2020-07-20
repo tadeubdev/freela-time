@@ -11,7 +11,7 @@
         <v-btn color="red darken-1" text v-if="no" @click="handleNo">Não</v-btn>
         <v-btn color="red darken-1" text v-if="cancel" @click="handleCancel">Cancelar</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text v-if="yes" focusable @click="handleYes">Sim</v-btn>
+        <v-btn color="blue darken-1" text v-if="yes" @click="handleYes">Sim</v-btn>
         <v-btn color="blue darken-1" text v-if="ok" @click="handleOk">Ok</v-btn>
       </v-card-actions>
     </v-card>

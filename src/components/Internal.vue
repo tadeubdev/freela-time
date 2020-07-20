@@ -3,6 +3,8 @@
     <v-card
       flat
       tile
+      color="primary"
+      style="min-height:100vh;"
     >
       <v-toolbar
         color="primary"
@@ -11,15 +13,16 @@
         flat
       ></v-toolbar>
         <v-card
-          class="mx-4 mx-lg-auto"
-          max-width="1000"
-          style="margin-top:-64px;z-index: 0;"
+          flat
+          class="mx-4 mx-lg-auto rounded-b"
+          max-width="600"
+          style="margin-top:-64px;"
         >
           <v-toolbar
             flat
             class="text-dark"
           >
-            <v-toolbar-title class="grey--text">Freela Time</v-toolbar-title>
+            <v-toolbar-title class="grey--text font-weight-light">Freela Time</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-btn
               icon
@@ -27,24 +30,9 @@
             >
               <v-icon>mdi-account-arrow-right-outline</v-icon>
             </v-btn>
-            <template v-slot:extension>
-              <v-btn
-                fab
-                color="primary"
-                dark
-                bottom
-                left
-                absolute
-                style="z-index:9999"
-                @click="displayNovoCliente = !displayNovoCliente"
-              >
-                <v-icon>mdi-plus</v-icon>
-              </v-btn>
-            </template>
           </v-toolbar>
-          <v-divider></v-divider>
           <v-main
-            style="z-index:-1;min-height:500px;"
+            style="min-height:500px;"
           >
             <v-container
               class="fill-height"
@@ -60,12 +48,6 @@
     <Logout v-model="displayLogout"></Logout>
   </v-app>
 </template>
-
-<style>
-.v-main__wrap {
-  z-index: -1;
-}
-</style>
 
 <script>
 import NovoCliente from './Dialogs/NovoCliente.vue';
@@ -97,9 +79,18 @@ export default {
     if (this.$vuetify.breakpoint.lgAndUp) {
       this.drawer = this.$localStorage.get('drawer', false);
     }
+    document.addEventListener('keyup', this.onKeyUp);
   },
 
   methods: {
+
+    onKeyUp(event) {
+      if (event.keyCode === 65 && event.shiftKey && !this.displayNovoCliente) {
+        this.displayNovoCliente = true;
+        //
+        event.preventDefault();
+      }
+    },
 
     changeDrawer() {
       this.drawer = !this.drawer;

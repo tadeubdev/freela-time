@@ -1,28 +1,29 @@
 <template>
   <v-dialog v-model="show" max-width="400px">
-    <v-card>
+    <v-card v-if="cliente">
       <v-card-title>
-        <span class="headline">Novo cliente</span>
+        <span class="headline">{{ cliente.name }}</span>
       </v-card-title>
       <v-card-text>
         <v-container>
           <v-row>
-            <v-col cols="12" sm="12" md="12" class="px-0">
+            <v-col cols="12" sm="12" md="12">
               <v-text-field
                 label="Nome"
                 placeholder="Jhon Doe"
-                v-model="name"
+                v-model="cliente.name"
                 autofocus
                 required
-                @keydown.enter="criarNovoCliente"
+                @keydown.enter="salvarCliente"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="12" md="12" class="px-0">
+            <v-col cols="12" sm="12" md="12">
               <v-text-field
                 label="Descrição"
                 placeholder="Lorem ipsum dolor sit amet"
-                v-model="description"
-                @keydown.enter="criarNovoCliente"
+                v-model="cliente.description"
+                required
+                @keydown.enter="salvarCliente"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -31,7 +32,7 @@
       <v-card-actions>
         <v-btn color="red darken-1" text @click="show = !show">Cancelar</v-btn>
         <v-spacer></v-spacer>
-        <v-btn color="blue darken-1" text @click="criarNovoCliente">Salvar cliente</v-btn>
+        <v-btn color="blue darken-1" text @click="salvarCliente">Salvar</v-btn>
       </v-card-actions>
     </v-card>
     <!--  -->
@@ -58,9 +59,18 @@ export default {
 
   props: {
     value: Boolean,
+    data: Object,
   },
 
   computed: {
+    cliente: {
+      get() {
+        return this.data;
+      },
+      set(data) {
+        this.$emit('input', data);
+      },
+    },
     show: {
       get() {
         return this.value;
@@ -76,9 +86,6 @@ export default {
 
   data() {
     return {
-      name: null,
-      description: null,
-      //
       dialog: {
         show: false,
         title: null,
@@ -95,41 +102,18 @@ export default {
 
     showOnEmpty() {
       this.dialog.title = 'Ops!';
-      this.dialog.message = 'Preencha todos os campos!';
+      this.dialog.message = 'Preencha o campo nome!';
       this.dialog.ok = () => {
         this.dialog.show = false;
       };
       this.dialog.show = true;
     },
 
-    showClienteCadastrado() {
-      this.dialog.title = 'Ops!';
-      this.dialog.message = 'Esse cliente já está cadastrado!';
-      this.dialog.ok = () => {
-        this.dialog.show = false;
-      };
-      this.dialog.show = true;
-    },
-
-    criarNovoCliente() {
-      if (this.name === null) {
-        this.showOnEmpty();
-        return;
-      }
-      if (this.clientes.find((item) => item.name === this.name) != null) {
-        this.showClienteCadastrado();
-        return;
-      }
-      const cliente = {
-        id: this.clientes.length + 1,
-        name: this.name,
-        description: this.description,
-      };
-      this.clientes.push(cliente);
+    salvarCliente() {
+      const clientIndex = this.clientes.findIndex((item) => item.id === this.cliente.id);
+      this.clientes[clientIndex] = this.cliente;
       this.$store.commit('setClientes', this.clientes);
       this.show = !this.show;
-      this.name = null;
-      this.description = null;
     },
 
   },

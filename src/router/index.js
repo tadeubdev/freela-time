@@ -26,12 +26,17 @@ const routes = [
         name: 'Home',
         component: () => import('../views/Home.vue'),
       },
+      {
+        path: '/clientes/:id',
+        name: 'Cliente',
+        component: () => import('../views/Cliente.vue'),
+      },
     ],
   },
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes,
 });

@@ -15,5 +15,13 @@ module.exports = {
         app.use("/__open-in-editor", openInEditor("code"));
       }
     }
-  }
+  },
+  chainWebpack: (config) => {
+    config
+      .plugin('html')
+      .tap((args) => {
+        args[0].title = 'Freela Time';
+        return args;
+      });
+  },
 }
